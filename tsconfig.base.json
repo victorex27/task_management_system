@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@task-management-system/protos": ["libs/shared/protos/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,0 +1,41 @@
+{
+  "name": "protos",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/protos/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "assets": [
+        {
+          "glob": "**/*.proto",
+          "input": "src/",
+          "output": "src"
+        }
+      ],
+      "options": {
+        "outputPath": "dist/libs/shared/protos",
+        "main": "libs/shared/protos/src/index.ts",
+        "tsConfig": "libs/shared/protos/tsconfig.lib.json"
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "grpc_tools_node_protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./src/lib --ts_proto_opt=nestJs=true,outputServices=grpc-js,esModuleInterop=true --proto_path=./src ./src/proto-files/*.proto",
+        "cwd": "libs/shared/protos"
+      }
+    },
+    "postbuild": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cp -v libs/shared/protos/src/*.proto dist/libs/shared/protos/src/ || true"
+      },
+       "dependsOn": ["build"]
+    }
+  }
+}

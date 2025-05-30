@@ -80,3 +80,28 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+
+I used
+
+```sh
+    npx nx g @nx/js:lib protos --directory=libs/shared/protos
+
+```
+
+to create protos library
+
+To initialize new nestjs app use
+
+```sh
+    npx nx g @nx/nest:app --name auth --directory apps/auth
+```
+
+for creating nest app
+
+
+to install a packages in a project use
+
+```sh
+    npx lerna exec --scope="protos" -- yarn install
+```

@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "workspaces": [
-    "apps/*"
+    "apps/*", "libs/*"
   ],
   "scripts": {
+     "generate:proto": "npx nx run protos:generate",
     "build:gateway": "npx nx build api-gateway --configuration=development",
     "serve:gateway": "npx nx serve api-gateway --configuration=development"
   },
