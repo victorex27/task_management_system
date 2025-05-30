@@ -2,13 +2,20 @@
   "name": "@task-management-system/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "build:gateway": "npx nx build api-gateway --configuration=development",
+    "serve:gateway": "npx nx serve api-gateway --configuration=development"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
     "axios": "^1.6.0",
+    "lerna": "^8.2.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0"
   },

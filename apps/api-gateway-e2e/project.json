@@ -1,19 +1,19 @@
 {
-  "name": "task_management_system-e2e",
+  "name": "api-gateway-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "implicitDependencies": ["task_management_system"],
+  "implicitDependencies": ["api-gateway"],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/task_management_system-e2e/jest.config.ts",
+        "jestConfig": "apps/api-gateway-e2e/jest.config.ts",
         "passWithNoTests": true
       },
       "dependsOn": [
-        "task_management_system:build",
-        "task_management_system:serve"
+        "api-gateway:build",
+        "api-gateway:serve"
       ]
     }
   }

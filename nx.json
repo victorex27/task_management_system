@@ -37,7 +37,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/task_management_system-e2e/**/*"]
+      "exclude": ["apps/api-gateway-e2e/**/*"]
     }
   ]
 }

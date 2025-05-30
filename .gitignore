@@ -42,3 +42,18 @@ Thumbs.db
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+
+*.log
+
+# Environment files
+.env
+.env.*
+*.env
+!.env.example
+!sample.env
+secrets/
+config/local.json
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

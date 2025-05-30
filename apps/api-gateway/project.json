@@ -1,7 +1,7 @@
 {
-  "name": "task_management_system",
+  "name": "api-gateway",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/task_management_system/src",
+  "sourceRoot": "apps/api-gateway/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -23,15 +23,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "task_management_system:build",
+        "buildTarget": "api-gateway:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "task_management_system:build:development"
+          "buildTarget": "api-gateway:build:development"
         },
         "production": {
-          "buildTarget": "task_management_system:build:production"
+          "buildTarget": "api-gateway:build:production"
         }
       }
     },
