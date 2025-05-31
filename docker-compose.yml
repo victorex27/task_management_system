@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  auth:
+    build: .
+    command: sh -c 'npx nx run auth:serve & while ! nc -z localhost 3001; do sleep 1; done; wait'
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3001:3001" 
+    env_file:
+      - ./apps/auth/.env.development
+  
+   
+
+  task:
+    build: .
+    command: sh -c 'npx nx run task:serve & while ! nc -z localhost 3002; do sleep 1; done; wait'
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3002:3002" 
+    env_file:
+      - ./apps/task/.env.development
+   
+    
+
+  user:
+    build: .
+    command: sh -c 'npx nx run user:serve & while ! nc -z localhost 3003; do sleep 1; done; wait'
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3003:3003" 
+    env_file:
+      - ./apps/user/.env.development
+    
+   
+
+  api-gateway:
+    build: .
+    command: sh -c 'while ! nc -z auth 3001 || ! nc -z task 3002 || ! nc -z user 3003; do sleep 2; done; npx nx run api-gateway:serve'
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./apps/api-gateway/.env.development
+    depends_on:
+      - auth
+      - task
+      - user
+

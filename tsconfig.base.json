@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "api-gateway": ["apps/api-gateway/src/index.ts"],
+      "cache": ["libs/shared/cache/src/index.ts"],
+      "config": ["libs/common/config/src/index.ts"],
+      "error": ["libs/common/error/src/index.ts"],
+      "logger": ["libs/common/logger/src/index.ts"],
+      "protos": ["libs/shared/protos/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

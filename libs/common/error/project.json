@@ -1,0 +1,19 @@
+{
+  "name": "error",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/common/error/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project error-handler --web",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/common/error",
+        "main": "libs/common/error/src/index.ts",
+        "tsConfig": "libs/common/error/tsconfig.lib.json"
+      }
+    }
+  }
+}

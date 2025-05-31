@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package auth; 
+
+service AuthService {
+  
+  rpc CreateAuthUser (CreateAuthUserRequest) returns (CreateAuthResponse) {}
+  rpc Login (LoginRequest) returns (LoginResponse) {}
+  rpc Logout (LogoutRequest) returns (LogoutResponse) {}
+  rpc ValidateAuthToken (ValidateAuthTokenRequest) returns (ValidateAuthTokenResponse) {}
+  
+}
+
+
+message CreateAuthUserRequest {
+  string email = 1;
+  string password = 2;
+  string role = 3;
+}
+
+message CreateAuthResponse {
+  int32 status = 1;
+  bool success = 2;
+  string message = 3;
+  optional string error = 4;
+  Auth data = 5;
+  
+}
+
+message Auth {
+  string id = 1;
+  string  email= 2;
+  string  role= 3;
+  optional string message= 4;
+  optional bool isActive = 5;
+}
+
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int32 status = 1;
+  bool success = 2;
+  string message = 3;
+  optional string error = 4;
+  Token data = 5;
+  
+}
+
+
+message LogoutRequest {
+  string id = 1;
+  string token = 2;
+}
+
+message LogoutResponse {
+  int32 status = 1;
+  bool success = 2;
+  string message = 3;
+  optional string error = 4;
+  
+}
+
+
+message Token{
+  string message = 1;
+  string token  = 2;
+}
+
+
+message ValidateAuthTokenRequest {
+  string token = 1;
+}
+
+message ValidateAuthTokenResponse {
+  int32 status = 1;
+  bool success = 2;
+  string message = 3;
+  optional string error = 4;
+  Auth data = 5;
+  optional int32 code = 6;
+  optional string details = 7;
+  
+}

@@ -15,6 +15,16 @@
     "sharedGlobals": []
   },
   "nxCloudId": "6839872538b78c6de07ab8d9",
+  "projects": {
+    "auth": "apps/auth",
+    "task": "apps/task",
+    "user": "apps/user",
+    "api-gateway": "apps/api-gateway",
+    "protos": "libs/shared/protos",
+    "error": "libs/common/error",
+    "cache": "libs/common/cache",
+    "config": "libs/common/config"
+  },
   "plugins": [
     {
       "plugin": "@nx/webpack/plugin",
@@ -37,7 +47,19 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/api-gateway-e2e/**/*"]
+      "exclude": [
+        "apps/api-gateway-e2e/**/*",
+        "apps/auth-e2e/**/*",
+        "apps/task-e2e/**/*",
+        "apps/user-e2e/**/*"
+      ]
     }
-  ]
+  ],
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  }
 }
