@@ -1,6 +1,6 @@
 import { Injectable, Inject, OnModuleInit, HttpStatus } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { AuthProto, UserProto } from 'protos';
+import { UserProto } from 'protos';
 import { firstValueFrom } from 'rxjs';
 import { CustomHttpException } from 'error';
 import { LoggerService } from 'logger';

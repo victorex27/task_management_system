@@ -1,133 +1,152 @@
-# TaskManagementSystem
+# Task Management System
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A monorepo-based microservices project for managing tasks, users, and authentication, built with Nx, NestJS, and TypeScript. This project is organized into multiple apps and libraries for modularity and scalability.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Table of Contents
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- [Project Structure](#project-structure)
+- [Setup](#setup)
+- [Running the Project](#running-the-project)
+- [Testing](#testing)
+- [Docker & Docker Compose](#docker--docker-compose)
+- [Environment Variables](#environment-variables)
+- [Contributing](#contributing)
+- [API Documentation](#api-documentation)
 
-## Finish your remote caching setup
+---
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/hbxIUM3Aq8)
+## Project Structure
 
-
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx serve api-gateway
+```text
+apps/
+  api-gateway/      # Main API gateway service
+  auth/             # Authentication microservice
+  task/             # Task management microservice
+  user/             # User management microservice
+libs/
+  common/           # Shared libraries (config, error, logger, etc.)
+  shared/           # Shared code (cache, protos, etc.)
 ```
 
-To create a production bundle:
+## Setup
+
+### Prerequisites
+
+- Node.js (v18 or v20 recommended)
+- Yarn or npm
+- Docker & Docker Compose (for containerized development)
+
+### Install Dependencies
+
+Clone the repository
 
 ```sh
-npx nx build api-gateway
+git clone https://github.com/victorex27/task_management_system.git && cd task_management_system
 ```
-
-To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project api-gateway
+yarn install
+# or
+npm install
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### Environment Variables
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
+Each app has a `sample.env` file. Copy it to `.env` and fill in the required values:
 
 ```sh
-npx nx g @nx/nest:app demo
+cp apps/auth/sample.env apps/auth/.env
+cp apps/api-gateway/sample.env apps/api-gateway/.env
+cp apps/task/sample.env apps/task/.env
+cp apps/user/sample.env apps/user/.env
 ```
 
-To generate a new library, use:
+## Running the Project
+
+### With Nx (Locally)
+
+Start each service in a separate terminal:
 
 ```sh
-npx nx g @nx/node:lib mylib
+npx nx run auth:serve
+npx nx run api-gateway:serve
+npx nx run task:serve
+npx nx run user:serve
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-
-I used
+Or run all in parallel:
 
 ```sh
-    npx nx g @nx/js:lib protos --directory=libs/shared/protos
-
+npx nx run-many --target=serve --all
 ```
 
-to create protos library
+### With Docker Compose
 
-I used 
+Build and start all services:
 
 ```sh
-    npx nx g @nx/nest:lib --name error --directory=libs/common/error
-
+docker-compose up --build
 ```
 
-to create nest lib
+- The `auth` service will start first.
+- The `api-gateway` will wait for `auth` to be healthy before starting.
+- Code changes on your host are reflected in the containers via volumes.
 
-To initialize new nestjs app use
+## Testing
+
+### Unit & Integration Tests
+
+Each app and library has its own tests. To run all tests:
 
 ```sh
-    npx nx g @nx/nest:app --name auth --directory apps/auth
+npx nx run-many --target=test --all
 ```
 
-for creating nest app
-
-
-to install a packages in a project use
+To test a specific app or library:
 
 ```sh
-    npx lerna exec --scope="protos" -- yarn install
+npx nx test api-gateway
+npx nx test auth
+npx nx test task
+npx nx test user
 ```
 
+### End-to-End (E2E) Tests
 
-use
+Each app has a corresponding `-e2e` project. To run E2E tests:
 
 ```sh
-
-     npx lerna exec --scope="auth" -- npx typeorm-ts-node-commonjs migration:generate src/migrations/CreateAuth -d src/data-source.ts
+npx nx e2e api-gateway-e2e
+npx nx e2e auth-e2e
+npx nx e2e task-e2e
+npx nx e2e user-e2e
 ```
 
-to generate migration file
+## Docker & Docker Compose
 
+- The `Dockerfile` sets up the Node.js environment and installs dependencies.
+- The `docker-compose.yml` defines services for each microservice, with volumes for live code reload.
+- The `api-gateway` service depends on the `auth` service and starts only after `auth` is healthy.
 
-generate resource
+## Contributing
 
-```sh
-    npx nx g @nx/nest:resource auth --directory=apps/api-gateway
-```
+1. Fork the repo and create your branch from `main`.
+2. Make your changes and add tests as needed.
+3. Run `yarn lint` and `yarn test` to ensure code quality.
+4. Submit a pull request.
+
+## API Documentation
+
+Once the API Gateway is running (by default on port 3000), you can access the interactive API documentation powered by Swagger at:
+
+- [http://localhost:3000/api](http://localhost:3000/api)
+
+If you are on localhost and api-gateway port is 3000
+
+This documentation provides details on all available endpoints, request/response schemas, authentication requirements, and allows you to interact with the API directly from your browser.
+
+If you change the port or base path, adjust the URL accordingly.
+
+---
+
+For questions or support, please open an issue.
