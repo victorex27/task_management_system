@@ -18,6 +18,7 @@
   "projects": {
     "auth": "apps/auth",
     "task": "apps/task",
+    "user": "apps/user",
     "api-gateway": "apps/api-gateway",
     "protos": "libs/shared/protos",
     "error": "libs/common/error",
@@ -49,7 +50,8 @@
       "exclude": [
         "apps/api-gateway-e2e/**/*",
         "apps/auth-e2e/**/*",
-        "apps/task-e2e/**/*"
+        "apps/task-e2e/**/*",
+        "apps/user-e2e/**/*"
       ]
     }
   ],
