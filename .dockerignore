@@ -1,0 +1,74 @@
+# Default .dockerignore for NestJS + Nx + Lerna projects
+
+# Version control
+.git
+.gitignore
+.gitmodules
+.gitattributes
+
+# Project configuration files (handled by Lerna/Nx)
+lerna-debug.log
+nx.log
+.prettierignore
+
+# Dependency directories
+node_modules
+dist
+tmp
+out
+build
+
+# Nx and Lerna caches
+.cache
+.nx
+.rpt2_cache
+
+# Testing and coverage
+coverage
+*.log
+junit.xml
+
+# Environment variables
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor and IDE
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+LICENSE
+CHANGELOG.md
+
+# Lerna specific
+lerna.json
+packages/**/node_modules
+packages/**/dist
+
+# Nx specific
+nx.json
+project.json
+tsconfig.*.json
+jest.config.*
+jest.preset.js
+
+# Source files (only include compiled output via Dockerfile)
+# src
+# apps/**/src
+# libs/**/src
+
+# Custom patterns (add your project-specific ignores below)

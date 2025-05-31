@@ -1,0 +1,19 @@
+{
+  "name": "logger",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/common/logger/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project logger --web",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/common/logger",
+        "main": "libs/common/logger/src/index.ts",
+        "tsConfig": "libs/common/logger/tsconfig.lib.json"
+      }
+    }
+  }
+}
