@@ -91,6 +91,15 @@ I used
 
 to create protos library
 
+I used 
+
+```sh
+    npx nx g @nx/nest:lib --name error --directory=libs/common/error
+
+```
+
+to create nest lib
+
 To initialize new nestjs app use
 
 ```sh
@@ -104,4 +113,21 @@ to install a packages in a project use
 
 ```sh
     npx lerna exec --scope="protos" -- yarn install
+```
+
+
+use
+
+```sh
+
+     npx lerna exec --scope="auth" -- npx typeorm-ts-node-commonjs migration:generate src/migrations/CreateAuth -d src/data-source.ts
+```
+
+to generate migration file
+
+
+generate resource
+
+```sh
+    npx nx g @nx/nest:resource auth --directory=apps/api-gateway
 ```

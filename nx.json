@@ -15,10 +15,13 @@
     "sharedGlobals": []
   },
   "nxCloudId": "6839872538b78c6de07ab8d9",
-    "projects": {
-    "user": "apps/auth",
+  "projects": {
+    "auth": "apps/auth",
     "api-gateway": "apps/api-gateway",
-    "protos": "libs/shared/protos"
+    "protos": "libs/shared/protos",
+    "error": "libs/common/error",
+    "cache": "libs/common/cache",
+    "config": "libs/common/config"
   },
   "plugins": [
     {

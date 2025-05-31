@@ -3,22 +3,35 @@
   "version": "0.0.0",
   "license": "MIT",
   "workspaces": [
-    "apps/*", "libs/*"
+    "apps/*",
+    "libs/*"
   ],
   "scripts": {
-     "generate:proto": "npx nx run protos:generate",
+    "generate:proto": "npx nx run protos:generate",
     "build:gateway": "npx nx build api-gateway --configuration=development",
     "serve:gateway": "npx nx serve api-gateway --configuration=development"
   },
   "private": true,
   "dependencies": {
+    "@grpc/grpc-js": "^1.13.3",
     "@nestjs/common": "^10.0.2",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.0.2",
+    "@nestjs/microservices": "^11.1.1",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/typeorm": "^11.0.0",
     "axios": "^1.6.0",
+    "cache-manager-redis-yet": "^5.1.5",
+    "joi": "^17.13.3",
     "lerna": "^8.2.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "typeorm": "^0.3.24",
+    "@nestjs/cache-manager": "^2.2.2",
+    "cache-manager": "^5.5.1",
+    "cache-manager-redis-store": "^3.0.1",
+    "redis": "^3.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
