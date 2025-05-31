@@ -22,12 +22,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let message = 'Internal server error';
     let errorCode = 'INTERNAL_ERROR';
 
+
     if (exception instanceof CustomHttpException) {
       this.logger.error(message, JSON.stringify({
         errorCode,
         context: (exception as CustomHttpException).context,
         stack: (exception as Error).stack,
       }));
+
+      status = exception.getStatus();
+      message = exception.message;
+      errorCode = exception.errorCode || 'CUSTOM_ERROR';
+     
     } else if (exception instanceof HttpException) {
       status = exception.getStatus();
       message = exception.message;

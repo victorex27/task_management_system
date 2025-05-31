@@ -35,4 +35,5 @@ export const rabbitmqSchema = Joi.object({
 
 export const apiGatewayConnectionSchema = Joi.object({
   AUTH_SERVICE_URL: Joi.string().required(),
+  TASK_SERVICE_URL: Joi.string().required(),
 });

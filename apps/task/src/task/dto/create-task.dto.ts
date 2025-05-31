@@ -1,11 +1,12 @@
 import {
   IsEnum,
-  IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateTaskDto {
   @IsString()
@@ -34,11 +35,13 @@ export class CreateTaskDto {
   @IsNotEmpty()
   priority: string;
 
-  @IsInt()
+  @IsNumber()
+  @Transform(({ value }) => value.toNumber())
   @IsOptional()
   dueDate: number;
 
-  @IsInt()
+  @IsNumber()
+  @Transform(({ value }) => value.toNumber())
   @IsOptional()
   completedAt: number;
 }

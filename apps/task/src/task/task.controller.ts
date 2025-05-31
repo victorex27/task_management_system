@@ -16,6 +16,7 @@ export class TaskController {
 
   @GrpcMethod(TASK_SERVICE_NAME, 'CreateTask')
   async createTask(payload: CreateTaskDto) {
+    console.log({payload})
     return await  this.taskService.createTask(payload);
   }
 

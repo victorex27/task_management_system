@@ -1,4 +1,5 @@
 import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateTaskDto {
   @IsString()
@@ -15,10 +16,12 @@ export class UpdateTaskDto {
 
   @IsInt()
   @IsOptional()
+   @Transform(({ value }) => value.toNumber())
   dueDate: number;
 
   @IsInt()
   @IsOptional()
+   @Transform(({ value }) => value.toNumber())
   completedAt: number;
 
   @IsBoolean()
