@@ -8,7 +8,6 @@ export class UserRegistrationRequestDto {
   })
   email: string;
 
-
   @ApiProperty({
     example: 'ADMIN',
     description: 'ADMIN OR USER',
@@ -19,18 +18,17 @@ export class UserRegistrationRequestDto {
   })
   role: string;
 
+  @ApiProperty({
+    example: 'John',
+    description: 'First name of the user',
+    required: true,
+  })
+  firstName: string;
 
-  //  @ApiProperty({
-  //   example: 'John',
-  //   description: 'First name of the user',
-  //   required: true,
-  // })
-  // firstName: string;
-
-  //  @ApiProperty({
-  //   example: 'Doe',
-  //   description: 'Last name of the user',
-  //   required: true,
-  // })
-  // lastName: string;
+  @ApiProperty({
+    example: 'Doe',
+    description: 'Last name of the user',
+    required: true,
+  })
+  lastName: string;
 }

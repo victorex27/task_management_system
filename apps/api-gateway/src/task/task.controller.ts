@@ -52,7 +52,6 @@ export class TaskController {
 
   @Patch('/:id')
   @HttpCode(HttpStatus.OK)
-  @ApiTags('Admin')
   @ApiOperation({ summary: 'Updating a new task' })
   @ApiBearerAuth('JWT-auth')
   @ApiResponse({ type: UserRegistrationResponseDto })
@@ -74,7 +73,6 @@ export class TaskController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.OK)
-  @ApiTags('Admin')
   @ApiOperation({ summary: 'Deleting a  task' })
   @ApiBearerAuth('JWT-auth')
   @ApiResponse({ type: UserRegistrationResponseDto })

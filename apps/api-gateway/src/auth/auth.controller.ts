@@ -27,7 +27,6 @@ export class AuthController {
 
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
-  @ApiTags('Admin')
   @ApiOperation({ summary: 'Register a new user' })
   @ApiBearerAuth('JWT-auth')
   @ApiResponse({ type: UserRegistrationResponseDto })
