@@ -2,7 +2,7 @@
 // versions:
 //   protoc-gen-ts_proto  v2.7.1
 //   protoc               v3.19.1
-// source: proto-files/auth.proto
+// source: auth.proto
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
@@ -10,12 +10,28 @@ import type { handleUnaryCall, UntypedServiceImplementation } from "@grpc/grpc-j
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "users";
+export const protobufPackage = "auth";
 
-export interface User {
-  id: string;
-  firstName: string;
+export interface CreateAuthUserRequest {
   email: string;
+  password: string;
+  role: string;
+}
+
+export interface CreateAuthResponse {
+  status: number;
+  success: boolean;
+  message: string;
+  error?: string | undefined;
+  data: Auth | undefined;
+}
+
+export interface Auth {
+  id: string;
+  email: string;
+  role: string;
+  message?: string | undefined;
+  isActive?: boolean | undefined;
 }
 
 export interface LoginRequest {
@@ -32,7 +48,8 @@ export interface LoginResponse {
 }
 
 export interface LogoutRequest {
-  userId: string;
+  id: string;
+  token: string;
 }
 
 export interface LogoutResponse {
@@ -47,44 +64,190 @@ export interface Token {
   token: string;
 }
 
-export interface ValidateUserTokenRequest {
+export interface ValidateAuthTokenRequest {
   token: string;
 }
 
-export interface ValidateUserTokenResponse {
+export interface ValidateAuthTokenResponse {
   status: number;
   success: boolean;
   message: string;
   error?: string | undefined;
-  data: User | undefined;
+  data: Auth | undefined;
   code?: number | undefined;
   details?: string | undefined;
 }
 
-export const USERS_PACKAGE_NAME = "users";
+export const AUTH_PACKAGE_NAME = "auth";
 
-function createBaseUser(): User {
-  return { id: "", firstName: "", email: "" };
+function createBaseCreateAuthUserRequest(): CreateAuthUserRequest {
+  return { email: "", password: "", role: "" };
 }
 
-export const User: MessageFns<User> = {
-  encode(message: User, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
-    }
-    if (message.firstName !== "") {
-      writer.uint32(18).string(message.firstName);
-    }
+export const CreateAuthUserRequest: MessageFns<CreateAuthUserRequest> = {
+  encode(message: CreateAuthUserRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.email !== "") {
-      writer.uint32(26).string(message.email);
+      writer.uint32(10).string(message.email);
+    }
+    if (message.password !== "") {
+      writer.uint32(18).string(message.password);
+    }
+    if (message.role !== "") {
+      writer.uint32(26).string(message.role);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): User {
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAuthUserRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseUser();
+    const message = createBaseCreateAuthUserRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.password = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.role = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseCreateAuthResponse(): CreateAuthResponse {
+  return { status: 0, success: false, message: "", data: undefined };
+}
+
+export const CreateAuthResponse: MessageFns<CreateAuthResponse> = {
+  encode(message: CreateAuthResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.status !== 0) {
+      writer.uint32(8).int32(message.status);
+    }
+    if (message.success !== false) {
+      writer.uint32(16).bool(message.success);
+    }
+    if (message.message !== "") {
+      writer.uint32(26).string(message.message);
+    }
+    if (message.error !== undefined) {
+      writer.uint32(34).string(message.error);
+    }
+    if (message.data !== undefined) {
+      Auth.encode(message.data, writer.uint32(42).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateAuthResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateAuthResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.status = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.success = reader.bool();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.error = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.data = Auth.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+};
+
+function createBaseAuth(): Auth {
+  return { id: "", email: "", role: "" };
+}
+
+export const Auth: MessageFns<Auth> = {
+  encode(message: Auth, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.email !== "") {
+      writer.uint32(18).string(message.email);
+    }
+    if (message.role !== "") {
+      writer.uint32(26).string(message.role);
+    }
+    if (message.message !== undefined) {
+      writer.uint32(34).string(message.message);
+    }
+    if (message.isActive !== undefined) {
+      writer.uint32(40).bool(message.isActive);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Auth {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseAuth();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -101,7 +264,7 @@ export const User: MessageFns<User> = {
             break;
           }
 
-          message.firstName = reader.string();
+          message.email = reader.string();
           continue;
         }
         case 3: {
@@ -109,7 +272,23 @@ export const User: MessageFns<User> = {
             break;
           }
 
-          message.email = reader.string();
+          message.role = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.isActive = reader.bool();
           continue;
         }
       }
@@ -252,13 +431,16 @@ export const LoginResponse: MessageFns<LoginResponse> = {
 };
 
 function createBaseLogoutRequest(): LogoutRequest {
-  return { userId: "" };
+  return { id: "", token: "" };
 }
 
 export const LogoutRequest: MessageFns<LogoutRequest> = {
   encode(message: LogoutRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.userId !== "") {
-      writer.uint32(10).string(message.userId);
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.token !== "") {
+      writer.uint32(18).string(message.token);
     }
     return writer;
   },
@@ -275,7 +457,15 @@ export const LogoutRequest: MessageFns<LogoutRequest> = {
             break;
           }
 
-          message.userId = reader.string();
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.token = reader.string();
           continue;
         }
       }
@@ -406,22 +596,22 @@ export const Token: MessageFns<Token> = {
   },
 };
 
-function createBaseValidateUserTokenRequest(): ValidateUserTokenRequest {
+function createBaseValidateAuthTokenRequest(): ValidateAuthTokenRequest {
   return { token: "" };
 }
 
-export const ValidateUserTokenRequest: MessageFns<ValidateUserTokenRequest> = {
-  encode(message: ValidateUserTokenRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const ValidateAuthTokenRequest: MessageFns<ValidateAuthTokenRequest> = {
+  encode(message: ValidateAuthTokenRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.token !== "") {
       writer.uint32(10).string(message.token);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ValidateUserTokenRequest {
+  decode(input: BinaryReader | Uint8Array, length?: number): ValidateAuthTokenRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseValidateUserTokenRequest();
+    const message = createBaseValidateAuthTokenRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -443,12 +633,12 @@ export const ValidateUserTokenRequest: MessageFns<ValidateUserTokenRequest> = {
   },
 };
 
-function createBaseValidateUserTokenResponse(): ValidateUserTokenResponse {
+function createBaseValidateAuthTokenResponse(): ValidateAuthTokenResponse {
   return { status: 0, success: false, message: "", data: undefined };
 }
 
-export const ValidateUserTokenResponse: MessageFns<ValidateUserTokenResponse> = {
-  encode(message: ValidateUserTokenResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const ValidateAuthTokenResponse: MessageFns<ValidateAuthTokenResponse> = {
+  encode(message: ValidateAuthTokenResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.status !== 0) {
       writer.uint32(8).int32(message.status);
     }
@@ -462,7 +652,7 @@ export const ValidateUserTokenResponse: MessageFns<ValidateUserTokenResponse> = 
       writer.uint32(34).string(message.error);
     }
     if (message.data !== undefined) {
-      User.encode(message.data, writer.uint32(42).fork()).join();
+      Auth.encode(message.data, writer.uint32(42).fork()).join();
     }
     if (message.code !== undefined) {
       writer.uint32(48).int32(message.code);
@@ -473,10 +663,10 @@ export const ValidateUserTokenResponse: MessageFns<ValidateUserTokenResponse> = 
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ValidateUserTokenResponse {
+  decode(input: BinaryReader | Uint8Array, length?: number): ValidateAuthTokenResponse {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseValidateUserTokenResponse();
+    const message = createBaseValidateAuthTokenResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -517,7 +707,7 @@ export const ValidateUserTokenResponse: MessageFns<ValidateUserTokenResponse> = 
             break;
           }
 
-          message.data = User.decode(reader, reader.uint32());
+          message.data = Auth.decode(reader, reader.uint32());
           continue;
         }
         case 6: {
@@ -546,45 +736,60 @@ export const ValidateUserTokenResponse: MessageFns<ValidateUserTokenResponse> = 
   },
 };
 
-export interface UsersServiceClient {
+export interface AuthServiceClient {
+  createAuthUser(request: CreateAuthUserRequest): Observable<CreateAuthResponse>;
+
   login(request: LoginRequest): Observable<LoginResponse>;
 
   logout(request: LogoutRequest): Observable<LogoutResponse>;
 
-  validateUserToken(request: ValidateUserTokenRequest): Observable<ValidateUserTokenResponse>;
+  validateAuthToken(request: ValidateAuthTokenRequest): Observable<ValidateAuthTokenResponse>;
 }
 
-export interface UsersServiceController {
+export interface AuthServiceController {
+  createAuthUser(
+    request: CreateAuthUserRequest,
+  ): Promise<CreateAuthResponse> | Observable<CreateAuthResponse> | CreateAuthResponse;
+
   login(request: LoginRequest): Promise<LoginResponse> | Observable<LoginResponse> | LoginResponse;
 
   logout(request: LogoutRequest): Promise<LogoutResponse> | Observable<LogoutResponse> | LogoutResponse;
 
-  validateUserToken(
-    request: ValidateUserTokenRequest,
-  ): Promise<ValidateUserTokenResponse> | Observable<ValidateUserTokenResponse> | ValidateUserTokenResponse;
+  validateAuthToken(
+    request: ValidateAuthTokenRequest,
+  ): Promise<ValidateAuthTokenResponse> | Observable<ValidateAuthTokenResponse> | ValidateAuthTokenResponse;
 }
 
-export function UsersServiceControllerMethods() {
+export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["login", "logout", "validateUserToken"];
+    const grpcMethods: string[] = ["createAuthUser", "login", "logout", "validateAuthToken"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UsersService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UsersService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const USERS_SERVICE_NAME = "UsersService";
+export const AUTH_SERVICE_NAME = "AuthService";
 
-export type UsersServiceService = typeof UsersServiceService;
-export const UsersServiceService = {
+export type AuthServiceService = typeof AuthServiceService;
+export const AuthServiceService = {
+  createAuthUser: {
+    path: "/auth.AuthService/CreateAuthUser",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: CreateAuthUserRequest) => Buffer.from(CreateAuthUserRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => CreateAuthUserRequest.decode(value),
+    responseSerialize: (value: CreateAuthResponse) => Buffer.from(CreateAuthResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => CreateAuthResponse.decode(value),
+  },
   login: {
-    path: "/users.UsersService/Login",
+    path: "/auth.AuthService/Login",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: LoginRequest) => Buffer.from(LoginRequest.encode(value).finish()),
@@ -593,7 +798,7 @@ export const UsersServiceService = {
     responseDeserialize: (value: Buffer) => LoginResponse.decode(value),
   },
   logout: {
-    path: "/users.UsersService/Logout",
+    path: "/auth.AuthService/Logout",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: LogoutRequest) => Buffer.from(LogoutRequest.encode(value).finish()),
@@ -601,22 +806,23 @@ export const UsersServiceService = {
     responseSerialize: (value: LogoutResponse) => Buffer.from(LogoutResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => LogoutResponse.decode(value),
   },
-  validateUserToken: {
-    path: "/users.UsersService/ValidateUserToken",
+  validateAuthToken: {
+    path: "/auth.AuthService/ValidateAuthToken",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: ValidateUserTokenRequest) => Buffer.from(ValidateUserTokenRequest.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => ValidateUserTokenRequest.decode(value),
-    responseSerialize: (value: ValidateUserTokenResponse) =>
-      Buffer.from(ValidateUserTokenResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => ValidateUserTokenResponse.decode(value),
+    requestSerialize: (value: ValidateAuthTokenRequest) => Buffer.from(ValidateAuthTokenRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => ValidateAuthTokenRequest.decode(value),
+    responseSerialize: (value: ValidateAuthTokenResponse) =>
+      Buffer.from(ValidateAuthTokenResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => ValidateAuthTokenResponse.decode(value),
   },
 } as const;
 
-export interface UsersServiceServer extends UntypedServiceImplementation {
+export interface AuthServiceServer extends UntypedServiceImplementation {
+  createAuthUser: handleUnaryCall<CreateAuthUserRequest, CreateAuthResponse>;
   login: handleUnaryCall<LoginRequest, LoginResponse>;
   logout: handleUnaryCall<LogoutRequest, LogoutResponse>;
-  validateUserToken: handleUnaryCall<ValidateUserTokenRequest, ValidateUserTokenResponse>;
+  validateAuthToken: handleUnaryCall<ValidateAuthTokenRequest, ValidateAuthTokenResponse>;
 }
 
 export interface MessageFns<T> {

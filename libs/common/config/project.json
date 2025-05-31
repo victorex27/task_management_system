@@ -1,0 +1,19 @@
+{
+  "name": "config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/common/config/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project config --web",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/common/config",
+        "main": "libs/common/config/src/index.ts",
+        "tsConfig": "libs/common/config/tsconfig.lib.json"
+      }
+    }
+  }
+}

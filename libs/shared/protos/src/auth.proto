@@ -4,18 +4,35 @@ package auth;
 
 service AuthService {
   
+  rpc CreateAuthUser (CreateAuthUserRequest) returns (CreateAuthResponse) {}
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc Logout (LogoutRequest) returns (LogoutResponse) {}
-  rpc ValidateUserToken (ValidateUserTokenRequest) returns (ValidateUserTokenResponse) {}
+  rpc ValidateAuthToken (ValidateAuthTokenRequest) returns (ValidateAuthTokenResponse) {}
   
 }
 
 
+message CreateAuthUserRequest {
+  string email = 1;
+  string password = 2;
+  string role = 3;
+}
 
-message User {
+message CreateAuthResponse {
+  int32 status = 1;
+  bool success = 2;
+  string message = 3;
+  optional string error = 4;
+  Auth data = 5;
+  
+}
+
+message Auth {
   string id = 1;
-  string  firstName= 2;
-  string  email= 3;
+  string  email= 2;
+  string  role= 3;
+  optional string message= 4;
+  optional bool isActive = 5;
 }
 
 
@@ -35,7 +52,8 @@ message LoginResponse {
 
 
 message LogoutRequest {
-  string userId = 1;
+  string id = 1;
+  string token = 2;
 }
 
 message LogoutResponse {
@@ -53,16 +71,16 @@ message Token{
 }
 
 
-message ValidateUserTokenRequest {
+message ValidateAuthTokenRequest {
   string token = 1;
 }
 
-message ValidateUserTokenResponse {
+message ValidateAuthTokenResponse {
   int32 status = 1;
   bool success = 2;
   string message = 3;
   optional string error = 4;
-  User data = 5;
+  Auth data = 5;
   optional int32 code = 6;
   optional string details = 7;
   

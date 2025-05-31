@@ -1,0 +1,25 @@
+{
+  "name": "logger",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.js",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "nx": {
+    "name": "logger"
+  },
+  "dependencies": {
+    "nest-winston": "^1.10.2",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/winston": "^2.4.4"
+  }
+}
