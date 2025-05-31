@@ -30,7 +30,6 @@ export class AuthService implements OnModuleInit {
       lowercase: true,
     });
 
-    console.log({password})
 
     const user = await firstValueFrom(
       this.authService.createAuthUser({ ...payload, password })

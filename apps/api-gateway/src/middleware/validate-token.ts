@@ -8,7 +8,7 @@ import { CustomError, CustomHttpException } from 'error';
 interface AuthClientService {
   validateAuthToken(data: {
     token: string;
-  }): Observable<{ data: { id: string; email: string; } }>;
+  }): Observable<{ data: { id: string; email: string } }>;
 }
 
 @Injectable()
@@ -48,7 +48,6 @@ export class AuthGrpcMiddleware implements NestMiddleware {
         throw new CustomError('Invalid token', HttpStatus.UNAUTHORIZED);
       }
 
-      console.log({ auth });
       req['auth'] = auth.data;
       next();
     } catch (err) {

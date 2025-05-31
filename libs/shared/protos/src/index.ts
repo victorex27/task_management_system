@@ -8,5 +8,7 @@ const dirName = dirname(fileName);
 const packageRootDir = dirname(dirName);
 
 export const AUTH_PROTO_FILE_PATH = join(packageRootDir, './src/auth.proto');
+export const TASK_PROTO_FILE_PATH = join(packageRootDir, './src/task.proto');
 
 export * as AuthProto from './lib/auth';
+export * as TaskProto from './lib/task';

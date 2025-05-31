@@ -10,7 +10,6 @@ import RESPONSE_MESSAGE from '../constants/message.constant';
 import { LoggerService } from 'logger';
 import { ConfigService } from '@nestjs/config';
 import { AuthProto } from 'protos';
-import { RouterModule } from '@nestjs/core';
 
 @Injectable()
 export class AuthService {

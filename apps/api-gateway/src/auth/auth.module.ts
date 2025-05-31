@@ -12,7 +12,6 @@ import { AuthController } from './auth.controller';
 import { loggerConfigSettings, LoggerModule } from 'logger';
 import { AuthGrpcMiddleware } from '../middleware/validate-token';
 
-// console.log('AUTH_PROTO_FILE_PATH: ', AUTH_PROTO_FILE_PATH)
 
 @Module({
   imports: [

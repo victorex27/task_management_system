@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  auth:
+    build: .
+    command: npx nx run auth:serve
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3001:3001" # Adjust if your auth service uses a different port
+    env_file:
+      - ./apps/auth/.env.development
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api-gateway:
+    build: .
+    command: npx nx run api-gateway:serve
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./apps/api-gateway/.env.development
+    depends_on:
+      auth:
+        condition: service_healthy
